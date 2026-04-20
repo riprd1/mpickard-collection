@@ -10,26 +10,27 @@
 }
 
 :root {
-  --bg: #f3f3f3;
+  --bg1: #f7f7f7;
+  --bg2: #ececec;
   --panel: #ffffff;
   --text: #222;
   --muted: #777;
-  --accent: #222;
   --shadow: 0 10px 24px rgba(0,0,0,0.08);
 }
 
 body {
   margin: 0;
   font-family: sans-serif;
-  background: linear-gradient(180deg, #f7f7f7 0%, #eeeeee 100%);
+  background: linear-gradient(180deg, var(--bg1) 0%, var(--bg2) 100%);
   color: var(--text);
+  overflow-x: hidden;
 }
 
 header {
   position: sticky;
   top: 0;
   z-index: 20;
-  background: rgba(255,255,255,0.9);
+  background: rgba(255,255,255,0.92);
   backdrop-filter: blur(10px);
   border-bottom: 1px solid rgba(0,0,0,0.06);
 }
@@ -41,6 +42,7 @@ header {
   display: flex;
   align-items: center;
   justify-content: space-between;
+  gap: 12px;
 }
 
 .site-title {
@@ -53,39 +55,64 @@ header {
   color: #7fc7ff;
 }
 
-.top-actions {
-  display: flex;
-  align-items: center;
-  gap: 12px;
+.plus-button,
+.back-button,
+.action-button,
+.delete-button {
+  border: none;
+  cursor: pointer;
+  transition: transform 0.18s ease, opacity 0.18s ease, box-shadow 0.18s ease;
 }
 
 .plus-button {
   width: 52px;
   height: 52px;
-  border: none;
   border-radius: 999px;
   background: #222;
   color: white;
   font-size: 28px;
   line-height: 1;
-  cursor: pointer;
   box-shadow: 0 8px 20px rgba(0,0,0,0.18);
-  transition: transform 0.18s ease, box-shadow 0.18s ease, opacity 0.18s ease;
 }
 
-.plus-button:hover {
-  transform: translateY(-2px) scale(1.04);
-  box-shadow: 0 12px 26px rgba(0,0,0,0.2);
+.plus-button:hover,
+.back-button:hover,
+.action-button:hover,
+.delete-button:hover {
+  transform: translateY(-1px);
+  opacity: 0.96;
 }
 
-.plus-button:active {
-  transform: scale(0.96);
+.plus-button:active,
+.back-button:active,
+.action-button:active,
+.delete-button:active {
+  transform: scale(0.97);
+}
+
+.back-button {
+  padding: 10px 14px;
+  border-radius: 999px;
+  background: #222;
+  color: white;
+  font-size: 14px;
+}
+
+.header-left,
+.header-right {
+  display: flex;
+  align-items: center;
+  gap: 10px;
 }
 
 .container {
   max-width: 1100px;
   margin: 0 auto;
   padding: 22px 20px 40px;
+}
+
+.hidden {
+  display: none !important;
 }
 
 .create-panel {
@@ -107,10 +134,6 @@ header {
     opacity: 1;
     transform: translateY(0) scale(1);
   }
-}
-
-.create-panel.hidden {
-  display: none;
 }
 
 .panel-title {
@@ -140,20 +163,20 @@ header {
 }
 
 .action-button {
-  border: none;
   border-radius: 12px;
   background: #222;
   color: white;
   padding: 13px 18px;
   font-size: 15px;
-  cursor: pointer;
-  transition: transform 0.16s ease, opacity 0.16s ease;
   white-space: nowrap;
 }
 
-.action-button:hover {
-  transform: translateY(-1px);
-  opacity: 0.96;
+.delete-button {
+  padding: 9px 12px;
+  border-radius: 999px;
+  background: rgba(0,0,0,0.08);
+  color: #333;
+  font-size: 13px;
 }
 
 .section-head {
@@ -161,6 +184,7 @@ header {
   align-items: center;
   justify-content: space-between;
   margin: 8px 0 14px;
+  gap: 12px;
 }
 
 .section-title {
@@ -208,7 +232,8 @@ header {
     inset 0 0 0 1px rgba(255,255,255,0.7);
   overflow: hidden;
   transform-origin: center bottom;
-  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  transition: transform 0.22s ease, box-shadow 0.22s ease;
+  cursor: pointer;
 }
 
 .binder-card:hover {
@@ -275,6 +300,8 @@ header {
   background: linear-gradient(145deg, rgba(255,255,255,0.8), rgba(240,240,240,0.9));
   padding: 18px 16px 16px;
   position: relative;
+  display: flex;
+  flex-direction: column;
 }
 
 .binder-label {
@@ -310,10 +337,178 @@ header {
   box-shadow: inset 0 0 0 1px rgba(255,255,255,0.5);
 }
 
-.binder-meta {
-  margin-top: 14px;
-  font-size: 13px;
-  color: #777;
+/* バインダー中画面 */
+.binder-view {
+  animation: binderViewFade 0.28s ease;
+}
+
+@keyframes binderViewFade {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.binder-view-title {
+  margin: 0 0 18px;
+  text-align: center;
+  font-size: 28px;
+  letter-spacing: 0.3px;
+}
+
+.album-stage {
+  background: linear-gradient(145deg, #d9d9d9, #f7f7f7);
+  border-radius: 32px;
+  padding: 24px;
+  box-shadow:
+    inset 0 0 0 2px rgba(255,255,255,0.55),
+    0 14px 30px rgba(0,0,0,0.08);
+}
+
+.album-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 18px;
+}
+
+.album-pocket {
+  background: rgba(255,255,255,0.42);
+  border-radius: 24px;
+  padding: 16px;
+  aspect-ratio: 1 / 1;
+  box-shadow:
+    inset 0 0 0 1px rgba(255,255,255,0.9),
+    inset 0 0 18px rgba(255,255,255,0.28);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.empty-card-ui {
+  width: 100%;
+  height: 100%;
+  border-radius: 22px;
+  background: #ececec;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+
+.empty-card-ui::before {
+  content: "";
+  width: 32%;
+  height: 46%;
+  border-radius: 18px;
+  background: #a0a0a0;
+  display: block;
+}
+
+.card-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 22px;
+  display: block;
+}
+
+.add-pocket {
+  cursor: pointer;
+  transition: transform 0.18s ease, box-shadow 0.18s ease;
+}
+
+.add-pocket:hover {
+  transform: scale(1.02);
+}
+
+.add-pocket:active {
+  transform: scale(0.98);
+}
+
+.add-overlay {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  pointer-events: none;
+}
+
+.add-overlay::before,
+.add-overlay::after {
+  content: "";
+  position: absolute;
+  background: #fff;
+  border-radius: 999px;
+}
+
+.add-overlay::before {
+  width: 56px;
+  height: 10px;
+}
+
+.add-overlay::after {
+  width: 10px;
+  height: 56px;
+}
+
+/* 吸い込まれアニメ用 */
+.fly-clone {
+  position: fixed;
+  z-index: 9999;
+  pointer-events: none;
+  margin: 0;
+  transform-origin: center center;
+  animation: suckIn 0.72s cubic-bezier(.2,.85,.15,1) forwards;
+}
+
+@keyframes suckIn {
+  0% {
+    opacity: 1;
+    transform: translate(0, 0) scale(1) rotate(0deg);
+    filter: blur(0);
+  }
+  55% {
+    opacity: 1;
+    transform: translate(var(--tx), var(--ty)) scale(1.12) rotate(-2deg);
+    filter: blur(0);
+  }
+  100% {
+    opacity: 0;
+    transform: translate(var(--tx), var(--ty)) scale(2.3) rotate(0deg);
+    filter: blur(10px);
+  }
+}
+
+.fade-out {
+  animation: fadeOutQuick 0.2s ease forwards;
+}
+
+@keyframes fadeOutQuick {
+  from { opacity: 1; }
+  to { opacity: 0.1; }
+}
+
+@media (max-width: 800px) {
+  .album-grid {
+    grid-template-columns: repeat(4, 1fr);
+    gap: 10px;
+  }
+
+  .album-pocket {
+    padding: 10px;
+    border-radius: 16px;
+  }
+
+  .empty-card-ui,
+  .card-image {
+    border-radius: 14px;
+  }
 }
 
 @media (max-width: 640px) {
@@ -337,6 +532,29 @@ header {
   .action-button {
     width: 100%;
   }
+
+  .binder-view-title {
+    font-size: 24px;
+  }
+
+  .album-stage {
+    padding: 14px;
+    border-radius: 22px;
+  }
+
+  .album-grid {
+    gap: 8px;
+  }
+
+  .add-overlay::before {
+    width: 36px;
+    height: 8px;
+  }
+
+  .add-overlay::after {
+    width: 8px;
+    height: 36px;
+  }
 }
 </style>
 </head>
@@ -344,9 +562,12 @@ header {
 
 <header>
   <div class="header-inner">
-    <h1 class="site-title">Mpickard <span>Mylist</span></h1>
-    <div class="top-actions">
-      <button class="plus-button" id="toggleCreateButton" aria-label="バインダー作成">＋</button>
+    <div class="header-left">
+      <button class="back-button hidden" id="backButton" type="button">← 戻る</button>
+      <h1 class="site-title">Mpickard <span>Mylist</span></h1>
+    </div>
+    <div class="header-right">
+      <button class="plus-button" id="toggleCreateButton" type="button" aria-label="バインダー作成">＋</button>
     </div>
   </div>
 </header>
@@ -360,24 +581,37 @@ header {
     </div>
   </div>
 
-  <div class="section-head">
-    <h2 class="section-title">Binder List</h2>
-    <div class="section-sub" id="binderCountText">0 binders</div>
-  </div>
+  <section id="binderListView">
+    <div class="section-head">
+      <h2 class="section-title">Binder List</h2>
+      <div class="section-sub" id="binderCountText">0 binders</div>
+    </div>
 
-  <div id="emptyState" class="empty-state">
-    <strong>まだバインダーがありません</strong>
-    上の ＋ ボタンから最初のバインダーを作成できます
-  </div>
+    <div id="emptyState" class="empty-state">
+      <strong>まだバインダーがありません</strong>
+      上の ＋ ボタンから最初のバインダーを作成できます
+    </div>
 
-  <div id="binderGrid" class="binder-grid"></div>
+    <div id="binderGrid" class="binder-grid"></div>
+  </section>
+
+  <section id="binderDetailView" class="binder-view hidden">
+    <h2 id="binderDetailTitle" class="binder-view-title"></h2>
+    <div class="album-stage">
+      <div id="albumGrid" class="album-grid"></div>
+    </div>
+  </section>
 </div>
 
+<input type="file" id="imagePicker" accept="image/*" hidden>
+
 <script>
-const STORAGE_KEY = "mpickard_binders_v1";
+const STORAGE_KEY = "mpickard_binders_v2";
 
 let binders = JSON.parse(localStorage.getItem(STORAGE_KEY) || "[]");
 let lastCreatedId = null;
+let currentBinderId = null;
+let pendingPocketIndex = null;
 
 const toggleCreateButton = document.getElementById("toggleCreateButton");
 const createPanel = document.getElementById("createPanel");
@@ -386,6 +620,12 @@ const createBinderButton = document.getElementById("createBinderButton");
 const binderGrid = document.getElementById("binderGrid");
 const emptyState = document.getElementById("emptyState");
 const binderCountText = document.getElementById("binderCountText");
+const binderListView = document.getElementById("binderListView");
+const binderDetailView = document.getElementById("binderDetailView");
+const binderDetailTitle = document.getElementById("binderDetailTitle");
+const albumGrid = document.getElementById("albumGrid");
+const backButton = document.getElementById("backButton");
+const imagePicker = document.getElementById("imagePicker");
 
 toggleCreateButton.addEventListener("click", () => {
   const isHidden = createPanel.classList.contains("hidden");
@@ -403,6 +643,25 @@ binderNameInput.addEventListener("keydown", (event) => {
 });
 
 createBinderButton.addEventListener("click", createBinder);
+backButton.addEventListener("click", goBackToList);
+
+imagePicker.addEventListener("change", (event) => {
+  const file = event.target.files[0];
+  if (!file || currentBinderId === null || pendingPocketIndex === null) return;
+
+  const reader = new FileReader();
+  reader.onload = function(e) {
+    const binder = binders.find(b => b.id === currentBinderId);
+    if (!binder) return;
+
+    binder.cards[pendingPocketIndex] = e.target.result;
+    saveBinders();
+    renderBinderDetail(currentBinderId);
+    pendingPocketIndex = null;
+    imagePicker.value = "";
+  };
+  reader.readAsDataURL(file);
+});
 
 function saveBinders() {
   localStorage.setItem(STORAGE_KEY, JSON.stringify(binders));
@@ -421,7 +680,7 @@ function createBinder() {
     id: crypto.randomUUID ? crypto.randomUUID() : String(Date.now()),
     name,
     createdAt: new Date().toISOString(),
-    cards: []
+    cards: Array(16).fill("")
   };
 
   binders.unshift(newBinder);
@@ -441,10 +700,13 @@ function renderBinders() {
   binders.forEach((binder) => {
     const article = document.createElement("article");
     article.className = "binder-card";
+    article.dataset.id = binder.id;
 
     if (binder.id === lastCreatedId) {
       article.classList.add("newly-created");
     }
+
+    const filledCount = binder.cards.filter(Boolean).length;
 
     article.innerHTML = `
       <div class="binder-spine"></div>
@@ -456,15 +718,14 @@ function renderBinders() {
       <div class="binder-cover">
         <div class="binder-label">BINDER</div>
         <h3 class="binder-name">${escapeHtml(binder.name)}</h3>
-
         <div class="pocket-preview">
-          ${'<div class="mini-pocket"></div>'.repeat(20)}
+          ${renderMiniPreview(binder.cards)}
         </div>
-
-        <div class="binder-meta">4 × 5 pockets</div>
+        <div class="binder-meta">${filledCount} / 16</div>
       </div>
     `;
 
+    article.addEventListener("click", () => openBinderWithAnimation(article, binder.id));
     binderGrid.appendChild(article);
   });
 
@@ -477,6 +738,106 @@ function renderBinders() {
     }
     lastCreatedId = null;
   }
+}
+
+function renderMiniPreview(cards) {
+  let html = "";
+  for (let i = 0; i < 16; i++) {
+    if (cards[i]) {
+      html += `<div class="mini-pocket" style="background-image:url('${cards[i]}'); background-size:cover; background-position:center;"></div>`;
+    } else {
+      html += `<div class="mini-pocket"></div>`;
+    }
+  }
+  return html;
+}
+
+function openBinderWithAnimation(cardElement, binderId) {
+  const rect = cardElement.getBoundingClientRect();
+  const clone = cardElement.cloneNode(true);
+  clone.classList.remove("newly-created");
+  clone.classList.add("fly-clone");
+
+  clone.style.left = `${rect.left}px`;
+  clone.style.top = `${rect.top}px`;
+  clone.style.width = `${rect.width}px`;
+  clone.style.height = `${rect.height}px`;
+
+  const targetX = window.innerWidth / 2 - (rect.left + rect.width / 2);
+  const targetY = window.innerHeight / 2 - (rect.top + rect.height / 2);
+
+  clone.style.setProperty("--tx", `${targetX}px`);
+  clone.style.setProperty("--ty", `${targetY}px`);
+
+  document.body.appendChild(clone);
+  binderListView.classList.add("fade-out");
+
+  setTimeout(() => {
+    currentBinderId = binderId;
+    binderListView.classList.add("hidden");
+    binderListView.classList.remove("fade-out");
+    createPanel.classList.add("hidden");
+    backButton.classList.remove("hidden");
+    toggleCreateButton.classList.add("hidden");
+    renderBinderDetail(binderId);
+    binderDetailView.classList.remove("hidden");
+  }, 360);
+
+  clone.addEventListener("animationend", () => {
+    clone.remove();
+  }, { once: true });
+}
+
+function renderBinderDetail(binderId) {
+  const binder = binders.find(b => b.id === binderId);
+  if (!binder) return;
+
+  binderDetailTitle.textContent = binder.name;
+  albumGrid.innerHTML = "";
+
+  for (let i = 0; i < 16; i++) {
+    const pocket = document.createElement("button");
+    pocket.type = "button";
+    pocket.className = "album-pocket";
+    pocket.style.border = "none";
+    pocket.style.padding = "";
+    pocket.style.backgroundColor = "";
+
+    const inner = document.createElement("div");
+    inner.className = "empty-card-ui";
+
+    if (binder.cards[i]) {
+      const img = document.createElement("img");
+      img.src = binder.cards[i];
+      img.alt = "";
+      img.className = "card-image";
+      inner.appendChild(img);
+    } else {
+      inner.classList.add("add-pocket");
+      const overlay = document.createElement("div");
+      overlay.className = "add-overlay";
+      inner.appendChild(overlay);
+    }
+
+    pocket.appendChild(inner);
+    pocket.addEventListener("click", () => selectPocket(i));
+    albumGrid.appendChild(pocket);
+  }
+}
+
+function selectPocket(index) {
+  pendingPocketIndex = index;
+  imagePicker.click();
+}
+
+function goBackToList() {
+  currentBinderId = null;
+  pendingPocketIndex = null;
+  binderDetailView.classList.add("hidden");
+  binderListView.classList.remove("hidden");
+  backButton.classList.add("hidden");
+  toggleCreateButton.classList.remove("hidden");
+  renderBinders();
 }
 
 function escapeHtml(str) {
