@@ -10,18 +10,18 @@
 }
 
 :root {
-  --bg1: #f7f7f7;
-  --bg2: #ececec;
+  --bg: #f4f4f4;
   --panel: #ffffff;
   --text: #222;
-  --muted: #777;
-  --shadow: 0 10px 24px rgba(0,0,0,0.08);
+  --muted: #808080;
+  --line: rgba(0,0,0,0.08);
+  --shadow: 0 10px 30px rgba(0,0,0,0.08);
 }
 
 body {
   margin: 0;
   font-family: sans-serif;
-  background: linear-gradient(180deg, var(--bg1) 0%, var(--bg2) 100%);
+  background: linear-gradient(180deg, #f7f7f7 0%, #eeeeee 100%);
   color: var(--text);
   overflow-x: hidden;
 }
@@ -32,7 +32,7 @@ header {
   z-index: 20;
   background: rgba(255,255,255,0.92);
   backdrop-filter: blur(10px);
-  border-bottom: 1px solid rgba(0,0,0,0.06);
+  border-bottom: 1px solid var(--line);
 }
 
 .header-inner {
@@ -42,60 +42,7 @@ header {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: 12px;
-}
-
-.site-title {
-  margin: 0;
-  font-size: 24px;
-  letter-spacing: 0.3px;
-}
-
-.site-title span {
-  color: #7fc7ff;
-}
-
-.plus-button,
-.back-button,
-.action-button,
-.delete-button {
-  border: none;
-  cursor: pointer;
-  transition: transform 0.18s ease, opacity 0.18s ease, box-shadow 0.18s ease;
-}
-
-.plus-button {
-  width: 52px;
-  height: 52px;
-  border-radius: 999px;
-  background: #222;
-  color: white;
-  font-size: 28px;
-  line-height: 1;
-  box-shadow: 0 8px 20px rgba(0,0,0,0.18);
-}
-
-.plus-button:hover,
-.back-button:hover,
-.action-button:hover,
-.delete-button:hover {
-  transform: translateY(-1px);
-  opacity: 0.96;
-}
-
-.plus-button:active,
-.back-button:active,
-.action-button:active,
-.delete-button:active {
-  transform: scale(0.97);
-}
-
-.back-button {
-  padding: 10px 14px;
-  border-radius: 999px;
-  background: #222;
-  color: white;
-  font-size: 14px;
+  gap: 14px;
 }
 
 .header-left,
@@ -105,10 +52,59 @@ header {
   gap: 10px;
 }
 
+.site-title {
+  margin: 0;
+  font-size: 24px;
+  letter-spacing: 0.2px;
+}
+
+.site-title span {
+  color: #8ccaff;
+}
+
+.plus-button,
+.back-button,
+.action-button {
+  border: none;
+  cursor: pointer;
+  transition: transform 0.18s ease, opacity 0.18s ease, box-shadow 0.18s ease;
+}
+
+.plus-button:hover,
+.back-button:hover,
+.action-button:hover {
+  transform: translateY(-1px);
+  opacity: 0.96;
+}
+
+.plus-button:active,
+.back-button:active,
+.action-button:active {
+  transform: scale(0.97);
+}
+
+.plus-button {
+  width: 54px;
+  height: 54px;
+  border-radius: 999px;
+  background: #1f1f1f;
+  color: white;
+  font-size: 30px;
+  box-shadow: 0 12px 24px rgba(0,0,0,0.16);
+}
+
+.back-button {
+  padding: 10px 14px;
+  border-radius: 999px;
+  background: #1f1f1f;
+  color: #fff;
+  font-size: 14px;
+}
+
 .container {
   max-width: 1100px;
   margin: 0 auto;
-  padding: 22px 20px 40px;
+  padding: 24px 20px 40px;
 }
 
 .hidden {
@@ -116,19 +112,18 @@ header {
 }
 
 .create-panel {
-  background: rgba(255,255,255,0.95);
-  border-radius: 22px;
+  background: rgba(255,255,255,0.96);
+  border-radius: 24px;
   box-shadow: var(--shadow);
   padding: 18px;
-  margin-bottom: 22px;
-  transform-origin: top right;
-  animation: panelIn 0.28s ease;
+  margin-bottom: 24px;
+  animation: panelIn 0.25s ease;
 }
 
 @keyframes panelIn {
   from {
     opacity: 0;
-    transform: translateY(-8px) scale(0.96);
+    transform: translateY(-8px) scale(0.97);
   }
   to {
     opacity: 1;
@@ -150,41 +145,33 @@ header {
 .input-row input {
   flex: 1;
   min-width: 0;
-  padding: 13px 14px;
-  border: 1px solid #ddd;
-  border-radius: 12px;
+  padding: 14px 15px;
+  border: 1px solid #dddddd;
+  border-radius: 14px;
   font-size: 16px;
   outline: none;
 }
 
 .input-row input:focus {
-  border-color: #8dcfff;
-  box-shadow: 0 0 0 4px rgba(141,207,255,0.16);
+  border-color: #9fd3ff;
+  box-shadow: 0 0 0 4px rgba(159,211,255,0.18);
 }
 
 .action-button {
-  border-radius: 12px;
-  background: #222;
+  border-radius: 14px;
+  background: #1f1f1f;
   color: white;
-  padding: 13px 18px;
+  padding: 14px 18px;
   font-size: 15px;
   white-space: nowrap;
 }
 
-.delete-button {
-  padding: 9px 12px;
-  border-radius: 999px;
-  background: rgba(0,0,0,0.08);
-  color: #333;
-  font-size: 13px;
-}
-
 .section-head {
   display: flex;
-  align-items: center;
   justify-content: space-between;
-  margin: 8px 0 14px;
-  gap: 12px;
+  align-items: center;
+  gap: 14px;
+  margin-bottom: 18px;
 }
 
 .section-title {
@@ -198,13 +185,13 @@ header {
 }
 
 .empty-state {
-  background: rgba(255,255,255,0.82);
-  border: 2px dashed rgba(0,0,0,0.1);
-  border-radius: 24px;
-  padding: 44px 20px;
+  background: rgba(255,255,255,0.86);
+  border: 2px dashed rgba(0,0,0,0.08);
+  border-radius: 28px;
+  padding: 48px 20px;
   text-align: center;
   color: #777;
-  box-shadow: inset 0 0 0 1px rgba(255,255,255,0.4);
+  box-shadow: inset 0 0 0 1px rgba(255,255,255,0.5);
 }
 
 .empty-state strong {
@@ -214,138 +201,109 @@ header {
   font-size: 17px;
 }
 
-.binder-grid {
+/* 一覧のフォルダ */
+.folder-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-  gap: 18px;
+  grid-template-columns: repeat(auto-fit, minmax(170px, 1fr));
+  gap: 28px 24px;
 }
 
-.binder-card {
-  position: relative;
-  border-radius: 24px;
-  padding: 18px;
-  min-height: 250px;
-  background:
-    linear-gradient(135deg, #fafafa 0%, #ececec 100%);
-  box-shadow:
-    0 14px 30px rgba(0,0,0,0.08),
-    inset 0 0 0 1px rgba(255,255,255,0.7);
-  overflow: hidden;
-  transform-origin: center bottom;
-  transition: transform 0.22s ease, box-shadow 0.22s ease;
+.folder-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+}
+
+.folder-button {
+  width: 100%;
+  max-width: 220px;
+  aspect-ratio: 1 / 1;
+  border: none;
+  background: transparent;
+  padding: 0;
   cursor: pointer;
+  transition: transform 0.18s ease;
 }
 
-.binder-card:hover {
-  transform: translateY(-4px);
-  box-shadow:
-    0 20px 38px rgba(0,0,0,0.1),
-    inset 0 0 0 1px rgba(255,255,255,0.78);
+.folder-button:hover {
+  transform: translateY(-3px) scale(1.02);
 }
 
-.binder-card.newly-created {
-  animation: binderPop 0.58s cubic-bezier(.2,1.2,.2,1);
+.folder-button:active {
+  transform: scale(0.98);
 }
 
-@keyframes binderPop {
+.folder-shape {
+  position: relative;
+  width: 100%;
+  height: 100%;
+}
+
+.folder-shape::before {
+  content: "";
+  position: absolute;
+  left: 13%;
+  top: 26%;
+  width: 64%;
+  height: 16%;
+  border: 12px solid #000;
+  border-bottom: none;
+  border-radius: 24px 24px 0 0;
+  background: transparent;
+}
+
+.folder-shape::after {
+  content: "";
+  position: absolute;
+  left: 13%;
+  top: 35%;
+  width: 67%;
+  height: 38%;
+  border: 12px solid #000;
+  border-radius: 0 24px 24px 24px;
+  background: transparent;
+}
+
+.folder-name {
+  width: 100%;
+  max-width: 220px;
+  text-align: center;
+  font-size: 20px;
+  font-weight: 700;
+  line-height: 1.35;
+  word-break: break-word;
+}
+
+.folder-item.newly-created .folder-button {
+  animation: folderPop 0.5s cubic-bezier(.2,1.2,.2,1);
+}
+
+@keyframes folderPop {
   0% {
     opacity: 0;
-    transform: scale(0.25) translateY(30px);
+    transform: scale(0.4) translateY(20px);
     filter: blur(6px);
   }
-  55% {
+  65% {
     opacity: 1;
-    transform: scale(1.08) translateY(-6px);
+    transform: scale(1.08) translateY(-4px);
     filter: blur(0);
-  }
-  75% {
-    transform: scale(0.96) translateY(2px);
   }
   100% {
     transform: scale(1) translateY(0);
   }
 }
 
-.binder-spine {
-  position: absolute;
-  left: 0;
-  top: 0;
-  width: 24px;
-  height: 100%;
-  background: linear-gradient(180deg, #dcdcdc 0%, #cfcfcf 100%);
-  box-shadow: inset -3px 0 8px rgba(0,0,0,0.08);
-}
-
-.binder-rings {
-  position: absolute;
-  left: 8px;
-  top: 22px;
-  display: flex;
-  flex-direction: column;
-  gap: 18px;
-}
-
-.ring {
-  width: 8px;
-  height: 22px;
-  border: 2px solid #9c9c9c;
-  border-radius: 999px;
-  background: rgba(255,255,255,0.55);
-}
-
-.binder-cover {
-  margin-left: 20px;
-  height: 100%;
-  border-radius: 18px;
-  background: linear-gradient(145deg, rgba(255,255,255,0.8), rgba(240,240,240,0.9));
-  padding: 18px 16px 16px;
-  position: relative;
-  display: flex;
-  flex-direction: column;
-}
-
-.binder-label {
-  display: inline-block;
-  padding: 7px 10px;
-  border-radius: 999px;
-  background: rgba(255,255,255,0.9);
-  font-size: 12px;
-  color: #666;
-  margin-bottom: 14px;
-  box-shadow: 0 4px 10px rgba(0,0,0,0.05);
-}
-
-.binder-name {
-  margin: 0 0 14px;
-  font-size: 20px;
-  line-height: 1.35;
-  word-break: break-word;
-}
-
-.pocket-preview {
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: 6px;
-  margin-top: auto;
-}
-
-.mini-pocket {
-  aspect-ratio: 3 / 4;
-  border-radius: 6px;
-  background: rgba(255,255,255,0.62);
-  border: 1px solid rgba(0,0,0,0.06);
-  box-shadow: inset 0 0 0 1px rgba(255,255,255,0.5);
-}
-
-/* バインダー中画面 */
+/* 詳細画面 */
 .binder-view {
-  animation: binderViewFade 0.28s ease;
+  animation: detailFade 0.24s ease;
 }
 
-@keyframes binderViewFade {
+@keyframes detailFade {
   from {
     opacity: 0;
-    transform: translateY(8px);
+    transform: translateY(10px);
   }
   to {
     opacity: 1;
@@ -353,171 +311,186 @@ header {
   }
 }
 
-.binder-view-title {
-  margin: 0 0 18px;
-  text-align: center;
-  font-size: 28px;
-  letter-spacing: 0.3px;
+.binder-stage {
+  max-width: 760px;
+  margin: 0 auto;
 }
 
-.album-stage {
+.binder-shell {
   background: linear-gradient(145deg, #d9d9d9, #f7f7f7);
   border-radius: 32px;
-  padding: 24px;
+  padding: 0;
   box-shadow:
     inset 0 0 0 2px rgba(255,255,255,0.55),
     0 14px 30px rgba(0,0,0,0.08);
+  overflow: hidden;
+  display: flex;
+  min-height: 720px;
+}
+
+.binder-spine {
+  width: 52px;
+  background: linear-gradient(180deg, #cfcfcf 0%, #d8d8d8 100%);
+  position: relative;
+  flex-shrink: 0;
+}
+
+.binder-rings {
+  position: absolute;
+  top: 48px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  flex-direction: column;
+  gap: 40px;
+}
+
+.ring {
+  width: 10px;
+  height: 42px;
+  border: 3px solid #9c9c9c;
+  border-radius: 999px;
+  background: rgba(255,255,255,0.55);
+}
+
+.binder-main {
+  flex: 1;
+  padding: 28px 28px 24px;
+}
+
+.binder-pill {
+  width: 100%;
+  height: 54px;
+  border-radius: 999px;
+  background: rgba(255,255,255,0.68);
+  box-shadow: inset 0 0 0 1px rgba(255,255,255,0.7);
+  margin-bottom: 26px;
+}
+
+.binder-detail-name {
+  margin: 0 0 22px;
+  font-size: 28px;
+  font-weight: 800;
+  line-height: 1.3;
+  word-break: break-word;
 }
 
 .album-grid {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
-  gap: 18px;
+  gap: 14px;
 }
 
 .album-pocket {
-  background: rgba(255,255,255,0.42);
-  border-radius: 24px;
-  padding: 16px;
-  aspect-ratio: 1 / 1;
-  box-shadow:
-    inset 0 0 0 1px rgba(255,255,255,0.9),
-    inset 0 0 18px rgba(255,255,255,0.28);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.empty-card-ui {
-  width: 100%;
-  height: 100%;
-  border-radius: 22px;
-  background: #ececec;
   position: relative;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  border: none;
+  background: rgba(255,255,255,0.3);
+  border-radius: 16px;
+  padding: 0;
   overflow: hidden;
-}
-
-.empty-card-ui::before {
-  content: "";
-  width: 32%;
-  height: 46%;
-  border-radius: 18px;
-  background: #a0a0a0;
-  display: block;
-}
-
-.card-image {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  border-radius: 22px;
-  display: block;
-}
-
-.add-pocket {
+  aspect-ratio: 3 / 4;
   cursor: pointer;
+  box-shadow:
+    inset 0 0 0 1px rgba(0,0,0,0.05),
+    inset 0 0 0 2px rgba(255,255,255,0.25);
   transition: transform 0.18s ease, box-shadow 0.18s ease;
 }
 
-.add-pocket:hover {
-  transform: scale(1.02);
+.album-pocket:hover {
+  transform: translateY(-2px);
 }
 
-.add-pocket:active {
+.album-pocket:active {
   transform: scale(0.98);
 }
 
-.add-overlay {
-  position: absolute;
-  inset: 0;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  pointer-events: none;
+.album-pocket.empty {
+  background: rgba(255,255,255,0.32);
 }
 
-.add-overlay::before,
-.add-overlay::after {
+.album-pocket.empty::before {
   content: "";
   position: absolute;
-  background: #fff;
-  border-radius: 999px;
+  inset: 14%;
+  border-radius: 18px;
+  background: #a0a0a0;
 }
 
-.add-overlay::before {
-  width: 56px;
+.album-pocket.empty::after {
+  content: "";
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 46px;
   height: 10px;
+  border-radius: 999px;
+  background: #fff;
+  transform: translate(-50%, -50%);
+  box-shadow: 0 0 0 0 #fff;
 }
 
-.add-overlay::after {
+.album-pocket.empty .plus-v {
+  position: absolute;
+  left: 50%;
+  top: 50%;
   width: 10px;
-  height: 56px;
+  height: 46px;
+  border-radius: 999px;
+  background: #fff;
+  transform: translate(-50%, -50%);
 }
 
-/* 吸い込まれアニメ用 */
-.fly-clone {
+.album-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.binder-count {
+  margin-top: 16px;
+  font-size: 18px;
+  font-weight: 700;
+}
+
+/* ズームアニメ */
+.zoom-clone {
   position: fixed;
   z-index: 9999;
   pointer-events: none;
-  margin: 0;
   transform-origin: center center;
-  animation: suckIn 0.72s cubic-bezier(.2,.85,.15,1) forwards;
+  animation: zoomToBinder 0.62s cubic-bezier(.2,.82,.18,1) forwards;
 }
 
-@keyframes suckIn {
+@keyframes zoomToBinder {
   0% {
     opacity: 1;
-    transform: translate(0, 0) scale(1) rotate(0deg);
-    filter: blur(0);
-  }
-  55% {
-    opacity: 1;
-    transform: translate(var(--tx), var(--ty)) scale(1.12) rotate(-2deg);
+    transform: translate(0, 0) scale(1);
     filter: blur(0);
   }
   100% {
     opacity: 0;
-    transform: translate(var(--tx), var(--ty)) scale(2.3) rotate(0deg);
+    transform: translate(var(--tx), var(--ty)) scale(3.2);
     filter: blur(10px);
   }
 }
 
 .fade-out {
-  animation: fadeOutQuick 0.2s ease forwards;
+  animation: fadeOutQuick 0.22s ease forwards;
 }
 
 @keyframes fadeOutQuick {
   from { opacity: 1; }
-  to { opacity: 0.1; }
+  to { opacity: 0.06; }
 }
 
-@media (max-width: 800px) {
-  .album-grid {
-    grid-template-columns: repeat(4, 1fr);
-    gap: 10px;
-  }
-
-  .album-pocket {
-    padding: 10px;
-    border-radius: 16px;
-  }
-
-  .empty-card-ui,
-  .card-image {
-    border-radius: 14px;
-  }
-}
-
-@media (max-width: 640px) {
+@media (max-width: 700px) {
   .header-inner {
     padding: 14px 16px;
   }
 
   .container {
-    padding: 18px 16px 34px;
+    padding: 20px 16px 34px;
   }
 
   .site-title {
@@ -533,27 +506,63 @@ header {
     width: 100%;
   }
 
-  .binder-view-title {
-    font-size: 24px;
+  .folder-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 22px 16px;
   }
 
-  .album-stage {
-    padding: 14px;
-    border-radius: 22px;
+  .folder-name {
+    font-size: 18px;
+  }
+
+  .binder-shell {
+    min-height: auto;
+  }
+
+  .binder-spine {
+    width: 40px;
+  }
+
+  .binder-rings {
+    top: 34px;
+    gap: 30px;
+  }
+
+  .ring {
+    width: 8px;
+    height: 32px;
+  }
+
+  .binder-main {
+    padding: 18px 18px 18px;
+  }
+
+  .binder-pill {
+    height: 42px;
+    margin-bottom: 18px;
+  }
+
+  .binder-detail-name {
+    font-size: 22px;
+    margin-bottom: 16px;
   }
 
   .album-grid {
-    gap: 8px;
+    gap: 10px;
   }
 
-  .add-overlay::before {
-    width: 36px;
+  .album-pocket.empty::after {
+    width: 34px;
     height: 8px;
   }
 
-  .add-overlay::after {
+  .album-pocket.empty .plus-v {
     width: 8px;
-    height: 36px;
+    height: 34px;
+  }
+
+  .binder-count {
+    font-size: 16px;
   }
 }
 </style>
@@ -577,7 +586,7 @@ header {
     <h2 class="panel-title">新しいバインダーを作成</h2>
     <div class="input-row">
       <input type="text" id="binderNameInput" placeholder="バインダー名を入力">
-      <button class="action-button" type="button" id="createBinderButton">作成</button>
+      <button class="action-button" id="createBinderButton" type="button">作成</button>
     </div>
   </div>
 
@@ -589,16 +598,30 @@ header {
 
     <div id="emptyState" class="empty-state">
       <strong>まだバインダーがありません</strong>
-      上の ＋ ボタンから最初のバインダーを作成できます
+      上の ＋ ボタンから作成できます
     </div>
 
-    <div id="binderGrid" class="binder-grid"></div>
+    <div id="folderGrid" class="folder-grid"></div>
   </section>
 
   <section id="binderDetailView" class="binder-view hidden">
-    <h2 id="binderDetailTitle" class="binder-view-title"></h2>
-    <div class="album-stage">
-      <div id="albumGrid" class="album-grid"></div>
+    <div class="binder-stage">
+      <div class="binder-shell">
+        <div class="binder-spine">
+          <div class="binder-rings">
+            <div class="ring"></div>
+            <div class="ring"></div>
+            <div class="ring"></div>
+          </div>
+        </div>
+
+        <div class="binder-main">
+          <div class="binder-pill"></div>
+          <h2 id="binderDetailName" class="binder-detail-name"></h2>
+          <div id="albumGrid" class="album-grid"></div>
+          <div id="binderCount" class="binder-count">0 / 16</div>
+        </div>
+      </div>
     </div>
   </section>
 </div>
@@ -606,40 +629,39 @@ header {
 <input type="file" id="imagePicker" accept="image/*" hidden>
 
 <script>
-const STORAGE_KEY = "mpickard_binders_v2";
+const STORAGE_KEY = "mpickard_binders_v3";
 
 let binders = JSON.parse(localStorage.getItem(STORAGE_KEY) || "[]");
-let lastCreatedId = null;
 let currentBinderId = null;
 let pendingPocketIndex = null;
+let lastCreatedId = null;
 
 const toggleCreateButton = document.getElementById("toggleCreateButton");
 const createPanel = document.getElementById("createPanel");
 const binderNameInput = document.getElementById("binderNameInput");
 const createBinderButton = document.getElementById("createBinderButton");
-const binderGrid = document.getElementById("binderGrid");
+const folderGrid = document.getElementById("folderGrid");
 const emptyState = document.getElementById("emptyState");
 const binderCountText = document.getElementById("binderCountText");
 const binderListView = document.getElementById("binderListView");
 const binderDetailView = document.getElementById("binderDetailView");
-const binderDetailTitle = document.getElementById("binderDetailTitle");
+const binderDetailName = document.getElementById("binderDetailName");
+const binderCount = document.getElementById("binderCount");
 const albumGrid = document.getElementById("albumGrid");
 const backButton = document.getElementById("backButton");
 const imagePicker = document.getElementById("imagePicker");
 
 toggleCreateButton.addEventListener("click", () => {
-  const isHidden = createPanel.classList.contains("hidden");
+  const willOpen = createPanel.classList.contains("hidden");
   createPanel.classList.toggle("hidden");
 
-  if (isHidden) {
+  if (willOpen) {
     setTimeout(() => binderNameInput.focus(), 30);
   }
 });
 
 binderNameInput.addEventListener("keydown", (event) => {
-  if (event.key === "Enter") {
-    createBinder();
-  }
+  if (event.key === "Enter") createBinder();
 });
 
 createBinderButton.addEventListener("click", createBinder);
@@ -651,7 +673,7 @@ imagePicker.addEventListener("change", (event) => {
 
   const reader = new FileReader();
   reader.onload = function(e) {
-    const binder = binders.find(b => b.id === currentBinderId);
+    const binder = binders.find(item => item.id === currentBinderId);
     if (!binder) return;
 
     binder.cards[pendingPocketIndex] = e.target.result;
@@ -679,58 +701,45 @@ function createBinder() {
   const newBinder = {
     id: crypto.randomUUID ? crypto.randomUUID() : String(Date.now()),
     name,
-    createdAt: new Date().toISOString(),
     cards: Array(16).fill("")
   };
 
   binders.unshift(newBinder);
   lastCreatedId = newBinder.id;
   saveBinders();
-  renderBinders();
+  renderFolderList();
 
   binderNameInput.value = "";
   createPanel.classList.add("hidden");
 }
 
-function renderBinders() {
-  binderGrid.innerHTML = "";
+function renderFolderList() {
+  folderGrid.innerHTML = "";
   binderCountText.textContent = `${binders.length} binders`;
   emptyState.style.display = binders.length === 0 ? "block" : "none";
 
   binders.forEach((binder) => {
-    const article = document.createElement("article");
-    article.className = "binder-card";
-    article.dataset.id = binder.id;
-
+    const item = document.createElement("div");
+    item.className = "folder-item";
     if (binder.id === lastCreatedId) {
-      article.classList.add("newly-created");
+      item.classList.add("newly-created");
     }
 
-    const filledCount = binder.cards.filter(Boolean).length;
-
-    article.innerHTML = `
-      <div class="binder-spine"></div>
-      <div class="binder-rings">
-        <div class="ring"></div>
-        <div class="ring"></div>
-        <div class="ring"></div>
-      </div>
-      <div class="binder-cover">
-        <div class="binder-label">BINDER</div>
-        <h3 class="binder-name">${escapeHtml(binder.name)}</h3>
-        <div class="pocket-preview">
-          ${renderMiniPreview(binder.cards)}
-        </div>
-        <div class="binder-meta">${filledCount} / 16</div>
-      </div>
+    item.innerHTML = `
+      <button class="folder-button" type="button" data-id="${binder.id}">
+        <div class="folder-shape"></div>
+      </button>
+      <div class="folder-name">${escapeHtml(binder.name)}</div>
     `;
 
-    article.addEventListener("click", () => openBinderWithAnimation(article, binder.id));
-    binderGrid.appendChild(article);
+    const button = item.querySelector(".folder-button");
+    button.addEventListener("click", () => openBinderWithZoom(button, binder.id));
+
+    folderGrid.appendChild(item);
   });
 
   if (lastCreatedId) {
-    const created = document.querySelector(".binder-card.newly-created");
+    const created = document.querySelector(".folder-item.newly-created");
     if (created) {
       created.addEventListener("animationend", () => {
         created.classList.remove("newly-created");
@@ -740,24 +749,10 @@ function renderBinders() {
   }
 }
 
-function renderMiniPreview(cards) {
-  let html = "";
-  for (let i = 0; i < 16; i++) {
-    if (cards[i]) {
-      html += `<div class="mini-pocket" style="background-image:url('${cards[i]}'); background-size:cover; background-position:center;"></div>`;
-    } else {
-      html += `<div class="mini-pocket"></div>`;
-    }
-  }
-  return html;
-}
-
-function openBinderWithAnimation(cardElement, binderId) {
-  const rect = cardElement.getBoundingClientRect();
-  const clone = cardElement.cloneNode(true);
-  clone.classList.remove("newly-created");
-  clone.classList.add("fly-clone");
-
+function openBinderWithZoom(button, binderId) {
+  const rect = button.getBoundingClientRect();
+  const clone = button.cloneNode(true);
+  clone.className = "zoom-clone";
   clone.style.left = `${rect.left}px`;
   clone.style.top = `${rect.top}px`;
   clone.style.width = `${rect.width}px`;
@@ -765,7 +760,6 @@ function openBinderWithAnimation(cardElement, binderId) {
 
   const targetX = window.innerWidth / 2 - (rect.left + rect.width / 2);
   const targetY = window.innerHeight / 2 - (rect.top + rect.height / 2);
-
   clone.style.setProperty("--tx", `${targetX}px`);
   clone.style.setProperty("--ty", `${targetY}px`);
 
@@ -774,14 +768,14 @@ function openBinderWithAnimation(cardElement, binderId) {
 
   setTimeout(() => {
     currentBinderId = binderId;
+    createPanel.classList.add("hidden");
     binderListView.classList.add("hidden");
     binderListView.classList.remove("fade-out");
-    createPanel.classList.add("hidden");
+    binderDetailView.classList.remove("hidden");
     backButton.classList.remove("hidden");
     toggleCreateButton.classList.add("hidden");
     renderBinderDetail(binderId);
-    binderDetailView.classList.remove("hidden");
-  }, 360);
+  }, 260);
 
   clone.addEventListener("animationend", () => {
     clone.remove();
@@ -789,40 +783,37 @@ function openBinderWithAnimation(cardElement, binderId) {
 }
 
 function renderBinderDetail(binderId) {
-  const binder = binders.find(b => b.id === binderId);
+  const binder = binders.find(item => item.id === binderId);
   if (!binder) return;
 
-  binderDetailTitle.textContent = binder.name;
+  binderDetailName.textContent = binder.name;
   albumGrid.innerHTML = "";
 
   for (let i = 0; i < 16; i++) {
     const pocket = document.createElement("button");
     pocket.type = "button";
     pocket.className = "album-pocket";
-    pocket.style.border = "none";
-    pocket.style.padding = "";
-    pocket.style.backgroundColor = "";
-
-    const inner = document.createElement("div");
-    inner.className = "empty-card-ui";
+    pocket.dataset.index = i;
 
     if (binder.cards[i]) {
       const img = document.createElement("img");
       img.src = binder.cards[i];
       img.alt = "";
-      img.className = "card-image";
-      inner.appendChild(img);
+      img.className = "album-image";
+      pocket.appendChild(img);
     } else {
-      inner.classList.add("add-pocket");
-      const overlay = document.createElement("div");
-      overlay.className = "add-overlay";
-      inner.appendChild(overlay);
+      pocket.classList.add("empty");
+      const plusV = document.createElement("div");
+      plusV.className = "plus-v";
+      pocket.appendChild(plusV);
     }
 
-    pocket.appendChild(inner);
     pocket.addEventListener("click", () => selectPocket(i));
     albumGrid.appendChild(pocket);
   }
+
+  const filled = binder.cards.filter(Boolean).length;
+  binderCount.textContent = `${filled} / 16`;
 }
 
 function selectPocket(index) {
@@ -837,7 +828,7 @@ function goBackToList() {
   binderListView.classList.remove("hidden");
   backButton.classList.add("hidden");
   toggleCreateButton.classList.remove("hidden");
-  renderBinders();
+  renderFolderList();
 }
 
 function escapeHtml(str) {
@@ -849,7 +840,7 @@ function escapeHtml(str) {
     .replaceAll("'", "&#39;");
 }
 
-renderBinders();
+renderFolderList();
 </script>
 </body>
 </html>
