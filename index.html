@@ -409,11 +409,7 @@ header {
 }
 
 .album-pocket.empty::before {
-  content: "";
-  position: absolute;
-  inset: 14%;
-  border-radius: 18px;
-  background: #a0a0a0;
+  content: none;
 }
 
 .album-pocket.empty::after {
@@ -421,22 +417,21 @@ header {
   position: absolute;
   left: 50%;
   top: 50%;
-  width: 46px;
-  height: 10px;
+  width: 28px;
+  height: 2px;
   border-radius: 999px;
-  background: #fff;
+  background: #8f8f8f;
   transform: translate(-50%, -50%);
-  box-shadow: 0 0 0 0 #fff;
 }
 
 .album-pocket.empty .plus-v {
   position: absolute;
   left: 50%;
   top: 50%;
-  width: 10px;
-  height: 46px;
+  width: 2px;
+  height: 28px;
   border-radius: 999px;
-  background: #fff;
+  background: #8f8f8f;
   transform: translate(-50%, -50%);
 }
 
@@ -552,13 +547,13 @@ header {
   }
 
   .album-pocket.empty::after {
-    width: 34px;
-    height: 8px;
+    width: 24px;
+    height: 2px;
   }
 
   .album-pocket.empty .plus-v {
-    width: 8px;
-    height: 34px;
+    width: 2px;
+    height: 24px;
   }
 
   .binder-count {
