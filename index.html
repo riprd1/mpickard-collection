@@ -4,344 +4,338 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Mpickard Mylist</title>
-
 <style>
 * {
   box-sizing: border-box;
 }
 
+:root {
+  --bg: #f3f3f3;
+  --panel: #ffffff;
+  --text: #222;
+  --muted: #777;
+  --accent: #222;
+  --shadow: 0 10px 24px rgba(0,0,0,0.08);
+}
+
 body {
   margin: 0;
   font-family: sans-serif;
-  background: #efefef;
-  color: #222;
+  background: linear-gradient(180deg, #f7f7f7 0%, #eeeeee 100%);
+  color: var(--text);
 }
 
 header {
-  background: #222;
-  color: #fff;
-  padding: 18px 20px;
-  text-align: center;
+  position: sticky;
+  top: 0;
+  z-index: 20;
+  background: rgba(255,255,255,0.9);
+  backdrop-filter: blur(10px);
+  border-bottom: 1px solid rgba(0,0,0,0.06);
 }
 
-header h1 {
+.header-inner {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 16px 20px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.site-title {
   margin: 0;
   font-size: 24px;
-  letter-spacing: 0.5px;
+  letter-spacing: 0.3px;
 }
 
-header h1 span {
-  color: #8fd3ff;
+.site-title span {
+  color: #7fc7ff;
+}
+
+.top-actions {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.plus-button {
+  width: 52px;
+  height: 52px;
+  border: none;
+  border-radius: 999px;
+  background: #222;
+  color: white;
+  font-size: 28px;
+  line-height: 1;
+  cursor: pointer;
+  box-shadow: 0 8px 20px rgba(0,0,0,0.18);
+  transition: transform 0.18s ease, box-shadow 0.18s ease, opacity 0.18s ease;
+}
+
+.plus-button:hover {
+  transform: translateY(-2px) scale(1.04);
+  box-shadow: 0 12px 26px rgba(0,0,0,0.2);
+}
+
+.plus-button:active {
+  transform: scale(0.96);
 }
 
 .container {
   max-width: 1100px;
   margin: 0 auto;
-  padding: 20px;
+  padding: 22px 20px 40px;
 }
 
-.form-area {
-  background: #fff;
-  border-radius: 18px;
+.create-panel {
+  background: rgba(255,255,255,0.95);
+  border-radius: 22px;
+  box-shadow: var(--shadow);
   padding: 18px;
-  margin-bottom: 24px;
-  box-shadow: 0 4px 14px rgba(0,0,0,0.08);
+  margin-bottom: 22px;
+  transform-origin: top right;
+  animation: panelIn 0.28s ease;
 }
 
-.upload-box {
-  width: 100%;
-  height: 220px;
-  background: #e3e3e3;
-  border-radius: 20px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  cursor: pointer;
-  position: relative;
-  overflow: hidden;
-  margin-bottom: 12px;
+@keyframes panelIn {
+  from {
+    opacity: 0;
+    transform: translateY(-8px) scale(0.96);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
 }
 
-.upload-placeholder {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 10px;
-  color: #777;
-  pointer-events: none;
-}
-
-.upload-icon {
-  width: 90px;
-  height: 120px;
-  border-radius: 18px;
-  background: #9f9f9f;
-  position: relative;
-}
-
-.upload-icon::before,
-.upload-icon::after {
-  content: "";
-  position: absolute;
-  background: #fff;
-  left: 50%;
-  top: 50%;
-  transform: translate(-50%, -50%);
-  border-radius: 3px;
-}
-
-.upload-icon::before {
-  width: 42px;
-  height: 8px;
-}
-
-.upload-icon::after {
-  width: 8px;
-  height: 42px;
-}
-
-.upload-label {
-  font-size: 14px;
-  font-weight: 600;
-}
-
-.preview-image {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
+.create-panel.hidden {
   display: none;
 }
 
-input[type="text"] {
-  width: 100%;
-  padding: 12px;
-  border: 1px solid #d6d6d6;
-  border-radius: 10px;
-  font-size: 16px;
-  margin-bottom: 12px;
-}
-
-button {
-  width: 100%;
-  padding: 12px;
-  border: none;
-  border-radius: 10px;
-  background: #333;
-  color: white;
-  font-size: 16px;
-  cursor: pointer;
-}
-
-button:hover {
-  opacity: 0.92;
-}
-
-.album-head {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  gap: 12px;
+.panel-title {
   margin: 0 0 12px;
-}
-
-.album-title {
   font-size: 18px;
-  font-weight: 700;
-  margin: 0;
 }
 
-.page-controls {
+.input-row {
   display: flex;
-  gap: 8px;
+  gap: 10px;
   align-items: center;
 }
 
-.page-controls button {
-  width: auto;
-  min-width: 88px;
-  padding: 10px 14px;
-  border-radius: 999px;
+.input-row input {
+  flex: 1;
+  min-width: 0;
+  padding: 13px 14px;
+  border: 1px solid #ddd;
+  border-radius: 12px;
+  font-size: 16px;
+  outline: none;
 }
 
-.page-indicator {
+.input-row input:focus {
+  border-color: #8dcfff;
+  box-shadow: 0 0 0 4px rgba(141,207,255,0.16);
+}
+
+.action-button {
+  border: none;
+  border-radius: 12px;
+  background: #222;
+  color: white;
+  padding: 13px 18px;
+  font-size: 15px;
+  cursor: pointer;
+  transition: transform 0.16s ease, opacity 0.16s ease;
+  white-space: nowrap;
+}
+
+.action-button:hover {
+  transform: translateY(-1px);
+  opacity: 0.96;
+}
+
+.section-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin: 8px 0 14px;
+}
+
+.section-title {
+  margin: 0;
+  font-size: 18px;
+}
+
+.section-sub {
+  color: var(--muted);
   font-size: 14px;
-  color: #555;
-  min-width: 72px;
+}
+
+.empty-state {
+  background: rgba(255,255,255,0.82);
+  border: 2px dashed rgba(0,0,0,0.1);
+  border-radius: 24px;
+  padding: 44px 20px;
   text-align: center;
+  color: #777;
+  box-shadow: inset 0 0 0 1px rgba(255,255,255,0.4);
 }
 
-.book-stage {
-  perspective: 2000px;
+.empty-state strong {
+  display: block;
+  margin-bottom: 8px;
+  color: #444;
+  font-size: 17px;
 }
 
-.album-page-wrap {
+.binder-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 18px;
+}
+
+.binder-card {
   position: relative;
-  min-height: 1190px;
-}
-
-.album-page {
-  background: linear-gradient(145deg, #d9d9d9, #f7f7f7);
-  border-radius: 28px;
-  padding: 22px;
+  border-radius: 24px;
+  padding: 18px;
+  min-height: 250px;
+  background:
+    linear-gradient(135deg, #fafafa 0%, #ececec 100%);
   box-shadow:
-    inset 0 0 0 2px rgba(255,255,255,0.55),
-    0 8px 20px rgba(0,0,0,0.08);
-  backface-visibility: hidden;
-  transform-origin: left center;
+    0 14px 30px rgba(0,0,0,0.08),
+    inset 0 0 0 1px rgba(255,255,255,0.7);
+  overflow: hidden;
+  transform-origin: center bottom;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
 
-.card-list {
+.binder-card:hover {
+  transform: translateY(-4px);
+  box-shadow:
+    0 20px 38px rgba(0,0,0,0.1),
+    inset 0 0 0 1px rgba(255,255,255,0.78);
+}
+
+.binder-card.newly-created {
+  animation: binderPop 0.58s cubic-bezier(.2,1.2,.2,1);
+}
+
+@keyframes binderPop {
+  0% {
+    opacity: 0;
+    transform: scale(0.25) translateY(30px);
+    filter: blur(6px);
+  }
+  55% {
+    opacity: 1;
+    transform: scale(1.08) translateY(-6px);
+    filter: blur(0);
+  }
+  75% {
+    transform: scale(0.96) translateY(2px);
+  }
+  100% {
+    transform: scale(1) translateY(0);
+  }
+}
+
+.binder-spine {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 24px;
+  height: 100%;
+  background: linear-gradient(180deg, #dcdcdc 0%, #cfcfcf 100%);
+  box-shadow: inset -3px 0 8px rgba(0,0,0,0.08);
+}
+
+.binder-rings {
+  position: absolute;
+  left: 8px;
+  top: 22px;
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+
+.ring {
+  width: 8px;
+  height: 22px;
+  border: 2px solid #9c9c9c;
+  border-radius: 999px;
+  background: rgba(255,255,255,0.55);
+}
+
+.binder-cover {
+  margin-left: 20px;
+  height: 100%;
+  border-radius: 18px;
+  background: linear-gradient(145deg, rgba(255,255,255,0.8), rgba(240,240,240,0.9));
+  padding: 18px 16px 16px;
+  position: relative;
+}
+
+.binder-label {
+  display: inline-block;
+  padding: 7px 10px;
+  border-radius: 999px;
+  background: rgba(255,255,255,0.9);
+  font-size: 12px;
+  color: #666;
+  margin-bottom: 14px;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+}
+
+.binder-name {
+  margin: 0 0 14px;
+  font-size: 20px;
+  line-height: 1.35;
+  word-break: break-word;
+}
+
+.pocket-preview {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
-  gap: 16px;
+  gap: 6px;
+  margin-top: auto;
 }
 
-.pocket {
-  background: rgba(255,255,255,0.55);
-  border-radius: 18px;
-  padding: 10px;
-  min-height: 220px;
-  box-shadow:
-    inset 0 0 0 1px rgba(255,255,255,0.9),
-    inset 0 0 18px rgba(255,255,255,0.3);
+.mini-pocket {
+  aspect-ratio: 3 / 4;
+  border-radius: 6px;
+  background: rgba(255,255,255,0.62);
+  border: 1px solid rgba(0,0,0,0.06);
+  box-shadow: inset 0 0 0 1px rgba(255,255,255,0.5);
 }
 
-.card {
-  width: 100%;
-  height: 100%;
-  background: white;
-  border-radius: 14px;
-  overflow: hidden;
-  box-shadow: 0 3px 10px rgba(0,0,0,0.08);
-  transition: transform 0.2s ease;
-}
-
-.card:hover {
-  transform: translateY(-4px);
-}
-
-.card img {
-  width: 100%;
-  height: 180px;
-  object-fit: cover;
-  display: block;
-}
-
-.card-name {
-  padding: 10px 8px 12px;
-  text-align: center;
-  font-size: 14px;
-  font-weight: 600;
-  line-height: 1.4;
-  background: #fff;
-}
-
-.empty-pocket {
-  width: 100%;
-  height: 100%;
-  min-height: 200px;
-  border: 2px dashed rgba(120,120,120,0.35);
-  border-radius: 14px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  color: #8a8a8a;
-  font-size: 14px;
-  text-align: center;
-  background: rgba(255,255,255,0.35);
-}
-
-/* めくり用の一時ページ */
-.flip-page {
-  position: absolute;
-  inset: 0;
-  z-index: 10;
-  pointer-events: none;
-  background: linear-gradient(145deg, #d9d9d9, #f7f7f7);
-  border-radius: 28px;
-  padding: 22px;
-  box-shadow:
-    inset 0 0 0 2px rgba(255,255,255,0.55),
-    0 8px 20px rgba(0,0,0,0.08);
-  transform-origin: left center;
-  backface-visibility: hidden;
-}
-
-.flip-page.next {
-  animation: flipNext 0.8s ease-in-out forwards;
-}
-
-.flip-page.prev {
-  transform-origin: right center;
-  animation: flipPrev 0.8s ease-in-out forwards;
-}
-
-@keyframes flipNext {
-  0% {
-    transform: rotateY(0deg);
-    opacity: 1;
-    filter: brightness(1);
-  }
-  50% {
-    filter: brightness(0.92);
-  }
-  100% {
-    transform: rotateY(-160deg);
-    opacity: 0.15;
-    filter: brightness(0.75);
-  }
-}
-
-@keyframes flipPrev {
-  0% {
-    transform: rotateY(0deg);
-    opacity: 1;
-    filter: brightness(1);
-  }
-  50% {
-    filter: brightness(0.92);
-  }
-  100% {
-    transform: rotateY(160deg);
-    opacity: 0.15;
-    filter: brightness(0.75);
-  }
-}
-
-@media (max-width: 900px) {
-  .card-list {
-    grid-template-columns: repeat(3, 1fr);
-  }
-
-  .album-page-wrap {
-    min-height: auto;
-  }
+.binder-meta {
+  margin-top: 14px;
+  font-size: 13px;
+  color: #777;
 }
 
 @media (max-width: 640px) {
-  .album-head {
+  .header-inner {
+    padding: 14px 16px;
+  }
+
+  .container {
+    padding: 18px 16px 34px;
+  }
+
+  .site-title {
+    font-size: 22px;
+  }
+
+  .input-row {
     flex-direction: column;
-    align-items: stretch;
   }
 
-  .page-controls {
-    justify-content: center;
-  }
-
-  .card-list {
-    grid-template-columns: repeat(2, 1fr);
-  }
-
-  .pocket {
-    min-height: 200px;
-  }
-
-  .card img {
-    height: 160px;
-  }
-
-  .album-page-wrap {
-    min-height: auto;
+  .input-row input,
+  .action-button {
+    width: 100%;
   }
 }
 </style>
@@ -349,185 +343,140 @@ button:hover {
 <body>
 
 <header>
-  <h1>Mpickard <span>Mylist</span></h1>
+  <div class="header-inner">
+    <h1 class="site-title">Mpickard <span>Mylist</span></h1>
+    <div class="top-actions">
+      <button class="plus-button" id="toggleCreateButton" aria-label="バインダー作成">＋</button>
+    </div>
+  </div>
 </header>
 
 <div class="container">
-
-  <div class="form-area">
-    <div class="upload-box" id="uploadBox">
-      <img id="previewImage" class="preview-image" alt="プレビュー">
-      <div id="uploadPlaceholder" class="upload-placeholder">
-        <div class="upload-icon"></div>
-        <div class="upload-label">カード</div>
-      </div>
-    </div>
-
-    <input type="file" id="imageInput" accept="image/*" hidden>
-    <input type="text" id="nameInput" placeholder="カード名">
-    <button type="button" onclick="addCard()">追加</button>
-  </div>
-
-  <div class="album-head">
-    <p class="album-title">Binder Page</p>
-    <div class="page-controls">
-      <button type="button" onclick="goPrevPage()">前へ</button>
-      <div class="page-indicator" id="pageIndicator">1 / 1</div>
-      <button type="button" onclick="goNextPage()">次へ</button>
+  <div class="create-panel hidden" id="createPanel">
+    <h2 class="panel-title">新しいバインダーを作成</h2>
+    <div class="input-row">
+      <input type="text" id="binderNameInput" placeholder="バインダー名を入力">
+      <button class="action-button" type="button" id="createBinderButton">作成</button>
     </div>
   </div>
 
-  <div class="book-stage">
-    <div class="album-page-wrap" id="albumPageWrap">
-      <div class="album-page" id="albumPage">
-        <div id="cardList" class="card-list"></div>
-      </div>
-    </div>
+  <div class="section-head">
+    <h2 class="section-title">Binder List</h2>
+    <div class="section-sub" id="binderCountText">0 binders</div>
   </div>
 
+  <div id="emptyState" class="empty-state">
+    <strong>まだバインダーがありません</strong>
+    上の ＋ ボタンから最初のバインダーを作成できます
+  </div>
+
+  <div id="binderGrid" class="binder-grid"></div>
 </div>
 
 <script>
-let cards = JSON.parse(localStorage.getItem("cards") || "[]");
-let currentPage = 0;
-const pageSize = 20;
-let isFlipping = false;
+const STORAGE_KEY = "mpickard_binders_v1";
 
-const imageInput = document.getElementById("imageInput");
-const uploadBox = document.getElementById("uploadBox");
-const previewImage = document.getElementById("previewImage");
-const uploadPlaceholder = document.getElementById("uploadPlaceholder");
-const nameInput = document.getElementById("nameInput");
-const cardList = document.getElementById("cardList");
-const pageIndicator = document.getElementById("pageIndicator");
-const albumPageWrap = document.getElementById("albumPageWrap");
-const albumPage = document.getElementById("albumPage");
+let binders = JSON.parse(localStorage.getItem(STORAGE_KEY) || "[]");
+let lastCreatedId = null;
 
-uploadBox.addEventListener("click", () => {
-  imageInput.click();
+const toggleCreateButton = document.getElementById("toggleCreateButton");
+const createPanel = document.getElementById("createPanel");
+const binderNameInput = document.getElementById("binderNameInput");
+const createBinderButton = document.getElementById("createBinderButton");
+const binderGrid = document.getElementById("binderGrid");
+const emptyState = document.getElementById("emptyState");
+const binderCountText = document.getElementById("binderCountText");
+
+toggleCreateButton.addEventListener("click", () => {
+  const isHidden = createPanel.classList.contains("hidden");
+  createPanel.classList.toggle("hidden");
+
+  if (isHidden) {
+    setTimeout(() => binderNameInput.focus(), 30);
+  }
 });
 
-function save() {
-  localStorage.setItem("cards", JSON.stringify(cards));
-}
-
-function getTotalPages() {
-  return Math.max(1, Math.ceil(cards.length / pageSize));
-}
-
-function resetPreview() {
-  previewImage.src = "";
-  previewImage.style.display = "none";
-  uploadPlaceholder.style.display = "flex";
-}
-
-imageInput.addEventListener("change", function() {
-  const file = this.files[0];
-  if (!file) return;
-
-  const reader = new FileReader();
-  reader.onload = function(e) {
-    previewImage.src = e.target.result;
-    previewImage.style.display = "block";
-    uploadPlaceholder.style.display = "none";
-  };
-  reader.readAsDataURL(file);
+binderNameInput.addEventListener("keydown", (event) => {
+  if (event.key === "Enter") {
+    createBinder();
+  }
 });
 
-function addCard() {
-  const file = imageInput.files[0];
-  const name = nameInput.value.trim();
+createBinderButton.addEventListener("click", createBinder);
 
-  if (!file || !name) {
-    alert("画像と名前を入力してください");
+function saveBinders() {
+  localStorage.setItem(STORAGE_KEY, JSON.stringify(binders));
+}
+
+function createBinder() {
+  const name = binderNameInput.value.trim();
+
+  if (!name) {
+    alert("バインダー名を入力してください");
+    binderNameInput.focus();
     return;
   }
 
-  const reader = new FileReader();
-  reader.onload = function(e) {
-    cards.push({
-      name: name,
-      image: e.target.result
-    });
-
-    save();
-
-    currentPage = getTotalPages() - 1;
-    renderCurrentPage();
-
-    imageInput.value = "";
-    nameInput.value = "";
-    resetPreview();
+  const newBinder = {
+    id: crypto.randomUUID ? crypto.randomUUID() : String(Date.now()),
+    name,
+    createdAt: new Date().toISOString(),
+    cards: []
   };
-  reader.readAsDataURL(file);
+
+  binders.unshift(newBinder);
+  lastCreatedId = newBinder.id;
+  saveBinders();
+  renderBinders();
+
+  binderNameInput.value = "";
+  createPanel.classList.add("hidden");
 }
 
-function createPocketHTML(card) {
-  if (card) {
-    return `
-      <div class="pocket">
-        <div class="card">
-          <img src="${card.image}" alt="${escapeHtml(card.name)}">
-          <div class="card-name">${escapeHtml(card.name)}</div>
+function renderBinders() {
+  binderGrid.innerHTML = "";
+  binderCountText.textContent = `${binders.length} binders`;
+  emptyState.style.display = binders.length === 0 ? "block" : "none";
+
+  binders.forEach((binder) => {
+    const article = document.createElement("article");
+    article.className = "binder-card";
+
+    if (binder.id === lastCreatedId) {
+      article.classList.add("newly-created");
+    }
+
+    article.innerHTML = `
+      <div class="binder-spine"></div>
+      <div class="binder-rings">
+        <div class="ring"></div>
+        <div class="ring"></div>
+        <div class="ring"></div>
+      </div>
+      <div class="binder-cover">
+        <div class="binder-label">BINDER</div>
+        <h3 class="binder-name">${escapeHtml(binder.name)}</h3>
+
+        <div class="pocket-preview">
+          ${'<div class="mini-pocket"></div>'.repeat(20)}
         </div>
+
+        <div class="binder-meta">4 × 5 pockets</div>
       </div>
     `;
+
+    binderGrid.appendChild(article);
+  });
+
+  if (lastCreatedId) {
+    const created = document.querySelector(".binder-card.newly-created");
+    if (created) {
+      created.addEventListener("animationend", () => {
+        created.classList.remove("newly-created");
+      }, { once: true });
+    }
+    lastCreatedId = null;
   }
-
-  return `
-    <div class="pocket">
-      <div class="empty-pocket">空きポケット</div>
-    </div>
-  `;
-}
-
-function renderPageToHTML(pageIndex) {
-  const start = pageIndex * pageSize;
-  const pageCards = cards.slice(start, start + pageSize);
-
-  let html = "";
-  for (let i = 0; i < pageSize; i++) {
-    html += createPocketHTML(pageCards[i]);
-  }
-  return html;
-}
-
-function renderCurrentPage() {
-  const totalPages = getTotalPages();
-  if (currentPage > totalPages - 1) currentPage = totalPages - 1;
-  if (currentPage < 0) currentPage = 0;
-
-  cardList.innerHTML = renderPageToHTML(currentPage);
-  pageIndicator.textContent = `${currentPage + 1} / ${totalPages}`;
-}
-
-function animateFlip(direction, nextPageIndex) {
-  if (isFlipping) return;
-  isFlipping = true;
-
-  const flipPage = document.createElement("div");
-  flipPage.className = `flip-page ${direction}`;
-  flipPage.innerHTML = `<div class="card-list">${renderPageToHTML(currentPage)}</div>`;
-  albumPageWrap.appendChild(flipPage);
-
-  currentPage = nextPageIndex;
-  renderCurrentPage();
-
-  flipPage.addEventListener("animationend", () => {
-    flipPage.remove();
-    isFlipping = false;
-  }, { once: true });
-}
-
-function goNextPage() {
-  const totalPages = getTotalPages();
-  if (currentPage >= totalPages - 1 || isFlipping) return;
-  animateFlip("next", currentPage + 1);
-}
-
-function goPrevPage() {
-  if (currentPage <= 0 || isFlipping) return;
-  animateFlip("prev", currentPage - 1);
 }
 
 function escapeHtml(str) {
@@ -539,9 +488,7 @@ function escapeHtml(str) {
     .replaceAll("'", "&#39;");
 }
 
-resetPreview();
-renderCurrentPage();
+renderBinders();
 </script>
-
 </body>
 </html>
