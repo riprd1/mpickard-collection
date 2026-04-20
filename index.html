@@ -136,10 +136,47 @@ button:hover {
   opacity: 0.92;
 }
 
+.album-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+  margin: 0 0 12px;
+}
+
 .album-title {
   font-size: 18px;
   font-weight: 700;
-  margin: 0 0 12px;
+  margin: 0;
+}
+
+.page-controls {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+}
+
+.page-controls button {
+  width: auto;
+  min-width: 88px;
+  padding: 10px 14px;
+  border-radius: 999px;
+}
+
+.page-indicator {
+  font-size: 14px;
+  color: #555;
+  min-width: 72px;
+  text-align: center;
+}
+
+.book-stage {
+  perspective: 2000px;
+}
+
+.album-page-wrap {
+  position: relative;
+  min-height: 1190px;
 }
 
 .album-page {
@@ -149,6 +186,8 @@ button:hover {
   box-shadow:
     inset 0 0 0 2px rgba(255,255,255,0.55),
     0 8px 20px rgba(0,0,0,0.08);
+  backface-visibility: hidden;
+  transform-origin: left center;
 }
 
 .card-list {
@@ -212,13 +251,83 @@ button:hover {
   background: rgba(255,255,255,0.35);
 }
 
+/* めくり用の一時ページ */
+.flip-page {
+  position: absolute;
+  inset: 0;
+  z-index: 10;
+  pointer-events: none;
+  background: linear-gradient(145deg, #d9d9d9, #f7f7f7);
+  border-radius: 28px;
+  padding: 22px;
+  box-shadow:
+    inset 0 0 0 2px rgba(255,255,255,0.55),
+    0 8px 20px rgba(0,0,0,0.08);
+  transform-origin: left center;
+  backface-visibility: hidden;
+}
+
+.flip-page.next {
+  animation: flipNext 0.8s ease-in-out forwards;
+}
+
+.flip-page.prev {
+  transform-origin: right center;
+  animation: flipPrev 0.8s ease-in-out forwards;
+}
+
+@keyframes flipNext {
+  0% {
+    transform: rotateY(0deg);
+    opacity: 1;
+    filter: brightness(1);
+  }
+  50% {
+    filter: brightness(0.92);
+  }
+  100% {
+    transform: rotateY(-160deg);
+    opacity: 0.15;
+    filter: brightness(0.75);
+  }
+}
+
+@keyframes flipPrev {
+  0% {
+    transform: rotateY(0deg);
+    opacity: 1;
+    filter: brightness(1);
+  }
+  50% {
+    filter: brightness(0.92);
+  }
+  100% {
+    transform: rotateY(160deg);
+    opacity: 0.15;
+    filter: brightness(0.75);
+  }
+}
+
 @media (max-width: 900px) {
   .card-list {
     grid-template-columns: repeat(3, 1fr);
   }
+
+  .album-page-wrap {
+    min-height: auto;
+  }
 }
 
 @media (max-width: 640px) {
+  .album-head {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .page-controls {
+    justify-content: center;
+  }
+
   .card-list {
     grid-template-columns: repeat(2, 1fr);
   }
@@ -229,6 +338,10 @@ button:hover {
 
   .card img {
     height: 160px;
+  }
+
+  .album-page-wrap {
+    min-height: auto;
   }
 }
 </style>
@@ -255,21 +368,40 @@ button:hover {
     <button type="button" onclick="addCard()">追加</button>
   </div>
 
-  <p class="album-title">Binder Page</p>
-  <div class="album-page">
-    <div id="cardList" class="card-list"></div>
+  <div class="album-head">
+    <p class="album-title">Binder Page</p>
+    <div class="page-controls">
+      <button type="button" onclick="goPrevPage()">前へ</button>
+      <div class="page-indicator" id="pageIndicator">1 / 1</div>
+      <button type="button" onclick="goNextPage()">次へ</button>
+    </div>
+  </div>
+
+  <div class="book-stage">
+    <div class="album-page-wrap" id="albumPageWrap">
+      <div class="album-page" id="albumPage">
+        <div id="cardList" class="card-list"></div>
+      </div>
+    </div>
   </div>
 
 </div>
 
 <script>
 let cards = JSON.parse(localStorage.getItem("cards") || "[]");
+let currentPage = 0;
+const pageSize = 20;
+let isFlipping = false;
 
 const imageInput = document.getElementById("imageInput");
 const uploadBox = document.getElementById("uploadBox");
 const previewImage = document.getElementById("previewImage");
 const uploadPlaceholder = document.getElementById("uploadPlaceholder");
 const nameInput = document.getElementById("nameInput");
+const cardList = document.getElementById("cardList");
+const pageIndicator = document.getElementById("pageIndicator");
+const albumPageWrap = document.getElementById("albumPageWrap");
+const albumPage = document.getElementById("albumPage");
 
 uploadBox.addEventListener("click", () => {
   imageInput.click();
@@ -277,6 +409,10 @@ uploadBox.addEventListener("click", () => {
 
 function save() {
   localStorage.setItem("cards", JSON.stringify(cards));
+}
+
+function getTotalPages() {
+  return Math.max(1, Math.ceil(cards.length / pageSize));
 }
 
 function resetPreview() {
@@ -315,7 +451,9 @@ function addCard() {
     });
 
     save();
-    render();
+
+    currentPage = getTotalPages() - 1;
+    renderCurrentPage();
 
     imageInput.value = "";
     nameInput.value = "";
@@ -324,36 +462,85 @@ function addCard() {
   reader.readAsDataURL(file);
 }
 
-function render() {
-  const list = document.getElementById("cardList");
-  list.innerHTML = "";
-
-  const pageSize = 20;
-  const displayCards = cards.slice(0, pageSize);
-
-  for (let i = 0; i < pageSize; i++) {
-    const pocket = document.createElement("div");
-    pocket.className = "pocket";
-
-    if (displayCards[i]) {
-      pocket.innerHTML = `
+function createPocketHTML(card) {
+  if (card) {
+    return `
+      <div class="pocket">
         <div class="card">
-          <img src="${displayCards[i].image}" alt="${displayCards[i].name}">
-          <div class="card-name">${displayCards[i].name}</div>
+          <img src="${card.image}" alt="${escapeHtml(card.name)}">
+          <div class="card-name">${escapeHtml(card.name)}</div>
         </div>
-      `;
-    } else {
-      pocket.innerHTML = `
-        <div class="empty-pocket">空きポケット</div>
-      `;
-    }
-
-    list.appendChild(pocket);
+      </div>
+    `;
   }
+
+  return `
+    <div class="pocket">
+      <div class="empty-pocket">空きポケット</div>
+    </div>
+  `;
+}
+
+function renderPageToHTML(pageIndex) {
+  const start = pageIndex * pageSize;
+  const pageCards = cards.slice(start, start + pageSize);
+
+  let html = "";
+  for (let i = 0; i < pageSize; i++) {
+    html += createPocketHTML(pageCards[i]);
+  }
+  return html;
+}
+
+function renderCurrentPage() {
+  const totalPages = getTotalPages();
+  if (currentPage > totalPages - 1) currentPage = totalPages - 1;
+  if (currentPage < 0) currentPage = 0;
+
+  cardList.innerHTML = renderPageToHTML(currentPage);
+  pageIndicator.textContent = `${currentPage + 1} / ${totalPages}`;
+}
+
+function animateFlip(direction, nextPageIndex) {
+  if (isFlipping) return;
+  isFlipping = true;
+
+  const flipPage = document.createElement("div");
+  flipPage.className = `flip-page ${direction}`;
+  flipPage.innerHTML = `<div class="card-list">${renderPageToHTML(currentPage)}</div>`;
+  albumPageWrap.appendChild(flipPage);
+
+  currentPage = nextPageIndex;
+  renderCurrentPage();
+
+  flipPage.addEventListener("animationend", () => {
+    flipPage.remove();
+    isFlipping = false;
+  }, { once: true });
+}
+
+function goNextPage() {
+  const totalPages = getTotalPages();
+  if (currentPage >= totalPages - 1 || isFlipping) return;
+  animateFlip("next", currentPage + 1);
+}
+
+function goPrevPage() {
+  if (currentPage <= 0 || isFlipping) return;
+  animateFlip("prev", currentPage - 1);
+}
+
+function escapeHtml(str) {
+  return String(str)
+    .replaceAll("&", "&amp;")
+    .replaceAll("<", "&lt;")
+    .replaceAll(">", "&gt;")
+    .replaceAll('"', "&quot;")
+    .replaceAll("'", "&#39;");
 }
 
 resetPreview();
-render();
+renderCurrentPage();
 </script>
 
 </body>
