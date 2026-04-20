@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>トレカ管理</title>
+
+<style>
+body {
+  font-family: sans-serif;
+  margin: 0;
+  background: #f5f5f5;
+}
+
+header {
+  background: #222;
+  color: white;
+  padding: 20px;
+}
+
+.container {
+  padding: 20px;
+}
+
+.form {
+  background: white;
+  padding: 16px;
+  border-radius: 10px;
+  margin-bottom: 20px;
+}
+
+input {
+  display: block;
+  margin-bottom: 10px;
+  padding: 10px;
+  width: 100%;
+}
+
+button {
+  padding: 10px;
+  width: 100%;
+  background: #333;
+  color: white;
+  border: none;
+  cursor: pointer;
+}
+
+.card-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 16px;
+}
+
+.card {
+  background: white;
+  border-radius: 10px;
+  overflow: hidden;
+  transition: 0.2s;
+}
+
+.card:hover {
+  transform: scale(1.05);
+}
+
+.card img {
+  width: 100%;
+  height: 220px;
+  object-fit: cover;
+}
+
+.card-name {
+  padding: 10px;
+  font-size: 14px;
+}
+</style>
+</head>
+
+<body>
+
+<header>
+  <h1>トレカ管理</h1>
+</header>
+
+<div class="container">
+
+  <div class="form">
+    <input type="file" id="imageInput" accept="image/*">
+    <input type="text" id="nameInput" placeholder="カード名（ファイル名）">
+    <button onclick="addCard()">追加</button>
+  </div>
+
+  <div id="cardList" class="card-list"></div>
+
+</div>
+
+<script>
+let cards = JSON.parse(localStorage.getItem("cards") || "[]");
+
+function save() {
+  localStorage.setItem("cards", JSON.stringify(cards));
+}
+
+function addCard() {
+  const file = document.getElementById("imageInput").files[0];
+  const name = document.getElementById("nameInput").value;
+
+  if (!file || !name) {
+    alert("画像と名前を入力してください");
+    return;
+  }
+
+  const reader = new FileReader();
+  reader.onload = function(e) {
+    cards.push({
+      name: name,
+      image: e.target.result
+    });
+    save();
+    render();
+  };
+  reader.readAsDataURL(file);
+
+  document.getElementById("imageInput").value = "";
+  document.getElementById("nameInput").value = "";
+}
+
+function render() {
+  const list = document.getElementById("cardList");
+  list.innerHTML = "";
+
+  cards.forEach((card, index) => {
+    const div = document.createElement("div");
+    div.className = "card";
+
+    div.innerHTML = `
+      <img src="${card.image}">
+      <div class="card-name">${card.name}</div>
+    `;
+
+    list.appendChild(div);
+  });
+}
+
+render();
+</script>
+
+</body>
+</html>
